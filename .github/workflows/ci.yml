@@ -28,6 +28,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Login to GitHub Container Registry
+        uses: ./
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          logout: ${{ matrix.logout }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -37,5 +45,5 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
-          tags: Plumbussy/SDXUE2:latest
+          tags: ghcr.io/Plumbussy/SDXUE2:latest
           push: false
